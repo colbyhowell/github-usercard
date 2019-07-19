@@ -1,9 +1,17 @@
+const cards = document.querySelector('cards')
 /* Step 1: using axios, send a GET request to the following URL 
            (replacing the palceholder with your Github name):
            https://api.github.com/users/colbyhowell/
 */
 
-axios.get(`https://api.github.com/users/colbyhowell/`)
+axios.get('https://api.github.com/users/colbyhowell')
+  .then(data => {
+    console.log(`here is your data`, data)
+  
+  .catch(error => {
+    console.log(`The API is having some trouble right now`, error)
+  })
+})
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -46,6 +54,41 @@ const followersArray = [];
 </div>
 
 */
+
+function cardCreator(obj) {
+  const card = document.createElement('div')
+  const img = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const userFirstName = document.createElement('h3')
+  const userName = document.createElement('p')
+  const location = document.createElement('p')
+  const profile = document.createElement('p')
+  const followers = document.createElement('p')
+  const following = document.createElement('p')
+  const bio = document.createElement('p')
+  const profileLinks = document.createElement('a')
+  
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  userFirstName.classList.add('name')
+  userName.classList.add('username')
+
+  card.appendChild(img)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(userFirstName)
+  cardInfo.appendChild(userName)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(userName)
+  cardInfo.appendChild(followers)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(bio)
+  profile.appendChild(profileLinks)
+
+
+
+  return card
+}
+
 
 /* List of LS Instructors Github username's: 
   tetondan
