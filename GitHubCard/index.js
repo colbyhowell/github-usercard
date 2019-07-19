@@ -1,15 +1,29 @@
-const cards = document.querySelector('cards')
+const cards = document.querySelector('.cards')
 /* Step 1: using axios, send a GET request to the following URL 
            (replacing the palceholder with your Github name):
            https://api.github.com/users/colbyhowell/
 */
 
-axios.get('https://api.github.com/users/colbyhowell')
-  .then(data => {
-    console.log(`here is your data`, data)
-  
-  .catch(error => {
-    console.log(`The API is having some trouble right now`, error)
+const followersArray = 
+  ["colbyhowell",
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell"];
+
+followersArray.forEach(function(usernames) {
+  return axios
+    .get(`https://api.github.com/users/${usernames}`)
+    .then(data => {
+      console.log(`here is your data`, data)
+
+      newCards = cardCreator(data.data)
+      cards.appendChild(newCards)
+
+    .catch(error => {
+      console.log(`The API is having some trouble right now`, error)
+    })
   })
 })
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -33,7 +47,6 @@ axios.get('https://api.github.com/users/colbyhowell')
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -55,7 +68,7 @@ const followersArray = [];
 
 */
 
-function cardCreator(obj) {
+function cardCreator(data) {
   const card = document.createElement('div')
   const img = document.createElement('img')
   const cardInfo = document.createElement('div')
@@ -78,13 +91,26 @@ function cardCreator(obj) {
   cardInfo.appendChild(userFirstName)
   cardInfo.appendChild(userName)
   cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  profile.appendChild(profileLinks)
   cardInfo.appendChild(userName)
   cardInfo.appendChild(followers)
   cardInfo.appendChild(following)
   cardInfo.appendChild(bio)
-  profile.appendChild(profileLinks)
 
 
+
+  img.src = data.avatar_url
+  userFirstName.textContent = data.name
+  userName.textContent = data.login
+  location.textContent = data.location
+  profileLinks.href = data.html_url
+  profileLinks.textContent = data.html_url
+  followers.textContent = "Followers:" + data.followers
+  following.textContent = "Following:" + data.following
+  bio.textContent = data.bio
+
+  
 
   return card
 }
